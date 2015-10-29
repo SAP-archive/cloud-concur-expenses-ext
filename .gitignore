@@ -1,0 +1,14 @@
+*target*
+*/build/
+*.jar
+*.war
+*.ear
+*.class
+.factorypath
+
+# eclipse specific git ignore
+.project
+.settings
+.classpath
+.loadpath
+
