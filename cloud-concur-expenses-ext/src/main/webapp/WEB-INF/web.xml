@@ -3,7 +3,7 @@
 	xmlns="http://java.sun.com/xml/ns/javaee"
 	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd"
 	id="WebApp_ID" version="3.0">
-	<display-name>cloud-concur-expenses-ext</display-name>
+	<display-name>com.sap.hana.cloud.samples.concur.expenses</display-name>
 	<resource-ref>
 		<res-ref-name>connectivityConfiguration</res-ref-name>
 		<res-type>com.sap.core.connectivity.api.configuration.ConnectivityConfiguration</res-type>

@@ -3,7 +3,6 @@ package com.sap.cloud.extensions.samples.concur.expenses;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.PrintWriter;
 import java.net.HttpURLConnection;
 import java.net.InetSocketAddress;
 import java.net.Proxy;
@@ -105,13 +104,22 @@ public class ExpensesServlet extends HttpServlet {
 	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		HttpSession session = request.getSession(true);
 
+		HttpSession session = request.getSession(true);
 		String authToken = (String) session.getAttribute("authToken");
+
 		if (authToken == null) {
 			logDebug("Authentication token not found. Creating new one.");
 			try {
 				authToken = createOAuthToken();
+
+				if (authToken == null || authToken.isEmpty()) {
+					LOGGER.error("Invalid authentication token created with value [ {} ]!", authToken);
+					throw new ConfigurationException("Invalid authentication token created");
+				}
+
+				logDebug("Setting authentication token for the current user session");
+				session.setAttribute("authToken", authToken);
 			} catch (IOException | ConfigurationException e) {
 				LOGGER.error("Exception occurred while trying to create authentication token.", e);
 				response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR,
@@ -119,26 +127,14 @@ public class ExpensesServlet extends HttpServlet {
 								+ " Hint: Make sure to have the destination configured. See the logs for more details.");
 				return;
 			}
-
-			if (authToken == null || authToken.isEmpty()) {
-				LOGGER.error("Empty authentication token created!");
-				response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Invalid authentication token.");
-				return;
-			}
-
-			logDebug("Setting authentication token for the current user session");
-			session.setAttribute("authToken", authToken);
 		}
 
-		HttpURLConnection apiConnection = null;
 		try {
-			apiConnection = getAPIConnection();
+			HttpURLConnection apiConnection = getAPIConnection();
 			// set OAuth header which is required for connecting to concur
 			apiConnection.setRequestProperty("Authorization", authToken);
-
 			String result = getJsonResult(apiConnection);
-			PrintWriter writer = response.getWriter();
-			writer.println(result);
+			response.getWriter().println(result);
 		} catch (ConfigurationException e) {
 			LOGGER.error("Exception occurred while configuring API URL Connection", e);
 			response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR,
@@ -179,13 +175,14 @@ public class ExpensesServlet extends HttpServlet {
 		String authURL = authProperties.get("URL");
 		String user = authProperties.get("User");
 		String password = authProperties.get("Password");
-		String consuemrKey = authProperties.get("X-ConsumerKey");
+		String consumerKey = authProperties.get("X-ConsumerKey");
 		String proxyType = authProperties.get("ProxyType");
 
 		/*
 		 * ----------- Concur documentation ----------
 		 *
-		 * The format of the call is: GET https://www.concursolutions.com/net2/oauth2/accesstoken.ashx
+		 * The format of the call is:
+		 * GET https://www.concursolutions.com/net2/oauth2/accesstoken.ashx
 		 * Authorization: Basic {Base64 encoded LoginID:Password}
 		 * X-ConsumerKey: {Consumer Key}
 		 *
@@ -197,13 +194,14 @@ public class ExpensesServlet extends HttpServlet {
 		Proxy proxy = getProxy(proxyType);
 		HttpURLConnection authConnection = (HttpURLConnection) url.openConnection(proxy);
 
-		// Set Authorization, X-ConsumerKey and, if on-premise connectivity,
-		// the customer account for the proxy
+		// Set proxy header for On-Premise connectivity
 		injectProxyHeader(authConnection, proxyType);
-		injectAuthHeaders(authConnection, consuemrKey);
 
+		// Set required headers for authentication and header for JSON-formatted response
 		String authorization = authenticate(user, password);
 		authConnection.setRequestProperty("Authorization", "Basic " + authorization);
+		authConnection.setRequestProperty("X-ConsumerKey", consumerKey);
+		authConnection.setRequestProperty("Accept", "application/json");
 
 		return authConnection;
 	}
@@ -291,12 +289,12 @@ public class ExpensesServlet extends HttpServlet {
 
 		if (ON_PREMISE_PROXY.equals(proxyType)) {
 			logDebug("Configuring on-premise proxy");
-			// Get proxy for on-premise destinations
+			// Get proxy for On-Premise connectivity
 			proxyHost = System.getenv(ON_PREMISE_PROXY_HOST);
 			proxyPort = Integer.parseInt(System.getenv(ON_PREMISE_PROXY_PORT));
 		} else {
 			logDebug("Configuring internet proxy");
-			// Get proxy for internet destinations
+			// Get proxy for Internet connectivity
 			proxyHost = System.getProperty(INTERNET_PROXY_HOST);
 			proxyPort = Integer.parseInt(System.getProperty(INTERNET_PROXY_PORT));
 		}
@@ -313,26 +311,11 @@ public class ExpensesServlet extends HttpServlet {
 	}
 
 	/**
-	 * Inserts Accept header to receive result in JSON format and X-ConsumerKey which is required for Concur
-	 * authentication
-	 */
-	private void injectAuthHeaders(HttpURLConnection urlConnection, String consumerKey) {
-		urlConnection.setRequestProperty("Accept", "application/json");
-		urlConnection.setRequestProperty("X-ConsumerKey", consumerKey);
-	}
-
-	/**
 	 * Logs the message with the specified arguments if debugging is enabled for the logger
 	 */
 	private void logDebug(String message, Object... arguments) {
 		if (LOGGER.isDebugEnabled()) {
-			if (arguments.length == 1) {
-				LOGGER.debug(message, arguments[0]);
-			} else if (arguments.length == 2) {
-				LOGGER.debug(message, arguments[0], arguments[1]);
-			} else {
-				LOGGER.debug(message, arguments);
-			}
+			LOGGER.debug(message, arguments);
 		}
 	}
 }
