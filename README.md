@@ -6,7 +6,7 @@ Prerequisites:
 1.    Eclipse installed with SAP HANA Cloud Platform Tools plugins
 2.    JDK 1.7 is available as an Installed JRE in *Windows->Preferences->Java->Installed JREs*
 3.    SAP HANA Cloud Java Web Tomcat 7 is available as a runtime environment *Windows->Preferences->Server-> Runtime Environments*
-4.    [Configured destinations for connecting to Concur API and Auth](#configuring-destinations)
+4.    [Configured destinations for connecting to the Concur API](#configuring-destinations)
 
 ##What is it?
 
@@ -54,6 +54,12 @@ CloudConnectorVersion=2<br>
 User=<b><i>your user email</i></b><br>
 Password=<b><i>your user password</i></b><br>
 X-ConsumerKey=<b><i>your consumer key</i></b><br>
+
+## Accessing the application
+After deployment the application is accessible on the following URL:
+`http(s)://host:port/com.sap.hana.cloud.samples.concur.expenses/expenses`
+
+You should see a list containing the travel expenses of the people who use Concur in your company.
 
 ## Resources
 
