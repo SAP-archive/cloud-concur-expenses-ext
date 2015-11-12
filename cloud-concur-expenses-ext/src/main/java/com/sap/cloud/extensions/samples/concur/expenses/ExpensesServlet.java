@@ -39,10 +39,8 @@ import com.sap.core.connectivity.api.configuration.DestinationConfiguration;
  *
  * @see <a href="https://help.hana.ondemand.com/help/frameset.htm?b068356dd7c34cf7ad6b6023deeb317d.html">HTTP
  *      Destinations</a>
- *
  * @see <a href="https://help.hana.ondemand.com/help/frameset.htm?d872cfb4801c4b54896816df4b75c75d.html">HTTP Proxy for
  *      On-Premise Connectivity</a>
- *
  * @see <a href="https://help.hana.ondemand.com/help/frameset.htm?d553d78bf9bd4ecbac201b873f557db6.html">Cloud
  *      Environment Variables</a>
  */
@@ -102,8 +100,7 @@ public class ExpensesServlet extends HttpServlet {
 	}
 
 	@Override
-	protected void doGet(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
 		HttpSession session = request.getSession(true);
 		String authToken = (String) session.getAttribute("authToken");
@@ -113,18 +110,16 @@ public class ExpensesServlet extends HttpServlet {
 			try {
 				authToken = createOAuthToken();
 
-				if (authToken == null || authToken.isEmpty()) {
+				if ((authToken == null) || authToken.isEmpty()) {
 					LOGGER.error("Invalid authentication token created with value [ {} ]!", authToken);
 					throw new ConfigurationException("Invalid authentication token created");
 				}
 
 				logDebug("Setting authentication token for the current user session");
-				session.setAttribute("authToken", authToken);
 			} catch (IOException | ConfigurationException e) {
 				LOGGER.error("Exception occurred while trying to create authentication token.", e);
-				response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR,
-						"Exception occurred while trying to create authentication token."
-								+ " Hint: Make sure to have the destination configured. See the logs for more details.");
+				response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Exception occurred while trying to create authentication token."
+						+ " Hint: Make sure to have the destination configured. See the logs for more details.");
 				return;
 			}
 		}
@@ -180,12 +175,10 @@ public class ExpensesServlet extends HttpServlet {
 
 		/*
 		 * ----------- Concur documentation ----------
-		 *
 		 * The format of the call is:
 		 * GET https://www.concursolutions.com/net2/oauth2/accesstoken.ashx
 		 * Authorization: Basic {Base64 encoded LoginID:Password}
 		 * X-ConsumerKey: {Consumer Key}
-		 *
 		 * ----------- Concur documentation ----------
 		 */
 
@@ -197,7 +190,7 @@ public class ExpensesServlet extends HttpServlet {
 		// Set proxy header for On-Premise connectivity
 		injectProxyHeader(authConnection, proxyType);
 
-		// Set required headers for authentication and header for JSON-formatted response
+		// Set required headers for authorization and header for JSON-formatted response
 		String authorization = authenticate(user, password);
 		authConnection.setRequestProperty("Authorization", "Basic " + authorization);
 		authConnection.setRequestProperty("X-ConsumerKey", consumerKey);
@@ -220,7 +213,7 @@ public class ExpensesServlet extends HttpServlet {
 		String expensesURL = apiProperties.get("URL") + EXPENSES_PATH;
 		String proxyType = apiProperties.get("ProxyType");
 
-		// get the destination url
+		// get the destination URL
 		URL url = new URL(expensesURL);
 		Proxy proxy = getProxy(proxyType);
 		HttpURLConnection apiConnection = (HttpURLConnection) url.openConnection(proxy);
@@ -250,8 +243,7 @@ public class ExpensesServlet extends HttpServlet {
 		DestinationConfiguration destConfiguration = configuration.getConfiguration(destinationName);
 		if (destConfiguration == null) {
 			throw new ConfigurationException(
-					String.format("Destination [ %s ] not found. Hint: Make sure to have the destination configured.",
-							destinationName));
+					String.format("Destination [ %s ] not found. Hint: Make sure to have the destination configured.", destinationName));
 		}
 		logDebug("Getting destination properties for destination [ {} ]", destinationName);
 		return destConfiguration.getAllProperties();
