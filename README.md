@@ -65,7 +65,7 @@ You should see a list containing the travel expenses of the people who use Concu
 
 * SAP HANA Cloud Documentation - https://help.hana.ondemand.com/
 * Concur API - https://developer.concur.com/api-reference/index.html
-* SCN Blog post - <a href="#">Coming soon</a>
+* SCN Blog post - <a href="http://scn.sap.com/community/developer-center/cloud-platform/blog/2015/11/22/integrating-concur-with-sap-hana-cloud-platform--expenses">Here</a>
 
 ## Copyright and license
 
