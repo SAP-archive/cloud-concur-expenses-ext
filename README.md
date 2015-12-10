@@ -22,8 +22,7 @@ Step 2: Import the project as a Maven project into your eclipse workspace.
 Step 3: Run Maven goal clean install 
 
 Step 4: If you are deploying locally then see [Creating and Deleting Destinations Locally](https://help.hana.ondemand.com/help/frameset.htm?7fa92ffa007346f58491999361928303.html).<br>
-If you are behind a proxy server, you should configure your proxy settings. Double click on the server, go to the Overview tab and click on "Open launch configuration". In the tab (x)= Arguments, VM Arguments add: -Dhttp.proxyHost=<i>your-proxy-host</i> -Dhttp.proxyPort=<i>your-proxy-port</i> -Dhttps.proxyHost=<i>your-proxy-host</i> -Dhttps.proxyPort=<i>your-proxy-port</i><br>
-If you are deploying on the Cloud then see [Creating and Deleting Destinations on the Cloud](https://help.hana.ondemand.com/help/frameset.htm?94dddf7d9e56401ba1719b7e836d8ee9.html).
+If you are deploying on the Cloud see [Creating and Deleting Destinations on the Cloud](https://help.hana.ondemand.com/help/frameset.htm?94dddf7d9e56401ba1719b7e836d8ee9.html).
 
 Step 5: Build and deploy your application. **Make sure you selected the SAP HANA Cloud Java Web Tomcat 7 as the runtime environment**
 
