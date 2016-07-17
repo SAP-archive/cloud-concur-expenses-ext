@@ -5,7 +5,7 @@ Prerequisites:
 
 1.    Eclipse installed with SAP HANA Cloud Platform Tools plugins
 2.    JDK 1.7 is available as an Installed JRE in *Windows->Preferences->Java->Installed JREs*
-3.    SAP HANA Cloud Java Web Tomcat 7 is available as a runtime environment *Windows->Preferences->Server-> Runtime Environments*
+3.    SAP HANA Cloud Platform SDK for Java Web Tomcat 7 is available as a runtime environment *Windows->Preferences->Server-> Runtime Environments*
 4.    [Configured destinations for connecting to the Concur API](#configuring-destinations)
 
 ##What is it?
@@ -24,7 +24,7 @@ Step 3: Run Maven goal clean install
 Step 4: If you are deploying locally then see [Creating and Deleting Destinations Locally](https://help.hana.ondemand.com/help/frameset.htm?7fa92ffa007346f58491999361928303.html).<br>
 If you are deploying on the Cloud see [Creating and Deleting Destinations on the Cloud](https://help.hana.ondemand.com/help/frameset.htm?94dddf7d9e56401ba1719b7e836d8ee9.html).
 
-Step 5: Build and deploy your application. **Make sure you selected the SAP HANA Cloud Java Web Tomcat 7 as the runtime environment**
+Step 5: Build and deploy your application. **Make sure you selected the Java Web Tomcat 7 as the runtime environment**
 
 
 ## <a name="configuring-destinations"></a> Configuring Destinations
@@ -57,13 +57,13 @@ X-ConsumerKey=<b><i>your consumer key</i></b><br>
 
 ## Accessing the application
 After deployment the application is accessible on the following URL:
-`http(s)://host:port/com.sap.hana.cloud.samples.concur.expenses/expenses`
+`https://host:port/com.sap.hana.cloud.samples.concur.expenses/expenses`
 
 You should see a list containing the travel expenses of the people who use Concur in your company.
 
 ## Resources
 
-* SAP HANA Cloud Documentation - https://help.hana.ondemand.com/
+* SAP HANA Cloud Platform Documentation - https://help.hana.ondemand.com/
 * Concur API - https://developer.concur.com/api-reference/index.html
 * SCN Blog post - <a href="http://scn.sap.com/community/developer-center/cloud-platform/blog/2015/11/22/integrating-concur-with-sap-hana-cloud-platform--expenses">Here</a>
 
