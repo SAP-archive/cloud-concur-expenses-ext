@@ -3,9 +3,9 @@
 Prerequisites:
 --------------
 
-1.    Eclipse installed with SAP HANA Cloud Platform Tools plugins
+1.    Eclipse installed with SAP Cloud Platform Tools plugins
 2.    JDK 1.7 is available as an Installed JRE in *Windows->Preferences->Java->Installed JREs*
-3.    SAP HANA Cloud Platform SDK for Java Web Tomcat 7 is available as a runtime environment *Windows->Preferences->Server-> Runtime Environments*
+3.    SAP Cloud Platform SDK for Java Web Tomcat 7 is available as a runtime environment *Windows->Preferences->Server-> Runtime Environments*
 4.    [Configured destinations for connecting to the Concur API](#configuring-destinations)
 
 ##What is it?
@@ -21,15 +21,15 @@ Step 2: Import the project as a Maven project into your eclipse workspace.
 
 Step 3: Run Maven goal clean install 
 
-Step 4: If you are deploying locally then see [Creating and Deleting Destinations Locally](https://help.hana.ondemand.com/help/frameset.htm?7fa92ffa007346f58491999361928303.html).<br>
-If you are deploying on the Cloud see [Creating and Deleting Destinations on the Cloud](https://help.hana.ondemand.com/help/frameset.htm?94dddf7d9e56401ba1719b7e836d8ee9.html).
+Step 4: If you are deploying locally then see [Creating and Deleting Destinations Locally](https://help.sap.com/viewer/65de2977205c403bbc107264b8eccf4b/Cloud/en-US/7fa92ffa007346f58491999361928303.html).<br>
+If you are deploying on the Cloud see [Creating and Deleting Destinations on the Cloud](https://help.sap.com/viewer/cca91383641e40ffbe03bdc78f00f681/Cloud/en-US/94dddf7d9e56401ba1719b7e836d8ee9.html).
 
 Step 5: Build and deploy your application. **Make sure you selected the Java Web Tomcat 7 as the runtime environment**
 
 
 ## <a name="configuring-destinations"></a> Configuring Destinations
 The sample uses two HTTP Connectivity Destinations - one for authentication and one for the API.
-Prior to running the project you must have the two destinations configured as described in the [SAP HANA Cloud Platform Destinations Documentation] (https://help.hana.ondemand.com/help/frameset.htm?e4f1d97cbb571014a247d10f9f9a685d.html)
+Prior to running the project you must have the two destinations configured as described in the [SAP Cloud Platform Destinations Documentation] (https://help.sap.com/viewer/65de2977205c403bbc107264b8eccf4b/Cloud/en-US/e4f1d97cbb571014a247d10f9f9a685d.html)
 
 The HTTP API Destination should look like this:
 
@@ -63,7 +63,7 @@ You should see a list containing the travel expenses of the people who use Concu
 
 ## Resources
 
-* SAP HANA Cloud Platform Documentation - https://help.hana.ondemand.com/
+* SAP Cloud Platform Documentation - https://help.sap.com/viewer/product/CP/Cloud/en-US
 * Concur API - https://developer.concur.com/api-reference/index.html
 * SCN Blog post - <a href="http://scn.sap.com/community/developer-center/cloud-platform/blog/2015/11/22/integrating-concur-with-sap-hana-cloud-platform--expenses">Here</a>
 
