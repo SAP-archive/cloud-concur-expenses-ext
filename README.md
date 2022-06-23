@@ -1,3 +1,5 @@
+[![REUSE status](https://api.reuse.software/badge/github.com/SAP-samples/cloud-concur-expenses-ext)](https://api.reuse.software/info/github.com/SAP-samples/cloud-concur-expenses-ext)
+
 # Concur Expenses Sample
 
 Prerequisites:
